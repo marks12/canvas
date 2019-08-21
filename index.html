@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+var width = 300;
+var height = 300;
+c.setAttribute("width", width*2);
+c.setAttribute("height", height*2);
+line(ctx, 0);
+
+var seconds = 1;
+var step = (1000 / width) / seconds;
+
+var startX = width / 2;
+var startY = height / 2;
+
+function line(ctx, i) {
+  
+    //if (i>width) return;
+
+   	ctx.clearRect(0, 0, width*2, height*2);
+    
+	//for(let j=0; j<width; j++) {
+    
+    	let l = new Path2D();
+        
+        let x1 = i < width ? i : width ;
+        let y1 = i < width ? 0 : i - width;
+        
+	 	l.moveTo(x1 + startX, y1 + startY);
+        
+        let x2 = i < width ? width-i : 0;
+        let y2 = i < width ? height : width + height - i;
+        
+    	l.lineTo(x2 + startX, y2 + startY);
+  		ctx.stroke(l);
+
+		if (y2 < 0) i = 0;
+
+    //}
+
+    setTimeout(()=>{
+    	line(ctx, i+step);
+    }, step);
+}
+
+</script>
+
+</body>
+</html>
+
