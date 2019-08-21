@@ -1,4 +1,4 @@
-k<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <body>
 
@@ -8,8 +8,8 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 <script>
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-var width = 500;
-var height = 500;
+var width = 200;
+var height = 200;
 c.setAttribute("width", width*2);
 c.setAttribute("height", height*2);
 line(ctx, 0);
@@ -19,6 +19,10 @@ var step = width / (seconds * 100);
 
 var startX = width / 2;
 var startY = height / 2;
+
+var sec = (new Date()).getSeconds();
+var fps = 0;
+var timer = 0;
 
 function line(ctx, i) {
   
@@ -41,13 +45,32 @@ function line(ctx, i) {
     	l.lineTo(x2 + startX, y2 + startY);
   		ctx.stroke(l);
 
-		if (y2 < 0) i = 0;
+		if (y2 < 0) {
+        
+        	i = 0;
+            timer = 0;
+        }
 
     //}
 
     setTimeout(()=>{
     	line(ctx, i+step);
+        fps++;
     }, 10);
+    
+    let ns = (new Date()).getSeconds();
+    
+    if (ns != sec) {
+	    ctx.fillText("fps: " + fps, 10, 20);
+        sec = ns;
+        sfps = fps;
+        fps = 0;
+    }
+    
+    ctx.fillText("fps: " + sfps, 10, 20);
+    
+    ctx.fillText("rander count: " + Math.round(i), 10, 10);
+
 }
 
 </script>
